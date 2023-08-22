@@ -1,6 +1,6 @@
 <!-- 여기는 보드_리스트에 관한 html 코드.
 실행이 안된다면 코드의 들여쓰기와 오타를 확인하기.
-thymeleaf를 썼다.-->
+thymeleaf를 썼음.-->
 
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
