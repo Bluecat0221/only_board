@@ -1,0 +1,31 @@
+while adding an yml file, it needs to be changed some db information.
+
+coding/commands
+---#
+server:
+  port: 8080
+
+---#
+spring:
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates
+    suffix: .html
+
+---#
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shop2 -->this part needs to rename, if the db name is not "shop2"
+    username: project --> this part needs to rename, if the db username is not "project"
+    password: 1234 --> this part needs to rename, if the db pw is not "1234"
+    
+---#
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format-sql: true
+        show-sql: true
