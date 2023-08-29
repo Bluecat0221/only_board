@@ -4,6 +4,7 @@ homeshopping's board list page
 
 ## Programming tool
 + Intellij(ultimate version)
++ Gradle(caution with vergions, this is for creating a new file or project)
 
 ## Download lists
 + MySQL Workbench(NEVER forget the pw)
@@ -11,10 +12,8 @@ homeshopping's board list page
 + Amazon corretto
 
 ## The plug-ins for Intellij tool 
-+ Spring (web)
-+ Spring JPA (spring data jpa)
++ Spring Web
++ Spring Data JPA
 + Lombok
 + MySQL
 + Thymeleaf
-+ Gradle(caution with vergions)
-
