@@ -15,5 +15,5 @@ homeshopping's board list page
 + Spring Web
 + Spring Data JPA
 + Lombok
-+ MySQL
++ MySQL Driver
 + Thymeleaf
