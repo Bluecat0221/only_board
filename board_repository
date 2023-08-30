@@ -1,1 +1,12 @@
 /*Board_Repository_java*/
+
+@Repository
+public interface BoardRepository extends JpaRepository<Board, Integer> {
+    Page<Board> findByTitleContaining(String searchKeyword, Pageable pageable); //title = filename, containing = path
+
+    Page<Board> findByContentsContaining(String searchKeyword, Pageable pageable);
+
+    Page<Board> findByTitleContainingAndContentsContaining(String searchKeyword1, String searchKeyword2, Pageable pageable); //jpa query 문이다.
+
+    Page<Board> findByNameContaining(String searchKeyword, Pageable pageable);
+}
