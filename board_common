@@ -1,4 +1,4 @@
-/*board_common*/
+//board_common//
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
