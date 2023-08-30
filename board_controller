@@ -1,1 +1,112 @@
 /*Board_Controller_java*/
+
+@Controller
+@RequestMapping("/board")
+public class BoardController {
+
+    @Autowired
+    BoardService boardService;
+
+    @GetMapping("/list")
+    public String doList(Model model, @PageableDefault(page = 0, size = 10, sort = "id",
+                         direction = Sort.Direction.DESC) Pageable pageable,
+                         String column, String searchKeyword) { //domain걸로 걸기
+        Page<Board> board = null;
+
+        if("title".equals(column)) {
+            board = boardService.doTitleSearch(searchKeyword, pageable);
+        }else if("contents".equals(column)) {
+            board = boardService.doContentsSearch(searchKeyword, pageable);
+        }else if("together".equals(column)) {
+            String searchKeyword1 = searchKeyword;
+            String searchKeyword2 = searchKeyword;
+            board = boardService.doTogetherSearch(searchKeyword1, searchKeyword2, pageable);
+        }else if("name".equals(column)) {
+            board = boardService.doNameSearch(searchKeyword, pageable);
+        } else {
+            board = boardService.doSelectAll(pageable);
+        }
+
+        if(!board.isEmpty()) {
+            int nowPage = board.getNumber() + 1;
+            int countPage = 10;
+            int totalPage = board.getTotalPages();
+            int startPage = ((nowPage - 1) / countPage) * countPage + 1;
+            int endPage = startPage + countPage - 1;
+            if(endPage > totalPage) {
+                endPage = totalPage;
+            }
+            int prePage = startPage - (countPage + 1);
+            int nextPage = endPage;
+
+            model.addAttribute("list", board);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            model.addAttribute("totalPage", totalPage);
+            model.addAttribute("prePage", prePage);
+            model.addAttribute("nextPage", nextPage);
+            return "/board/list";
+        }
+        else {
+            model.addAttribute("message", "검색결과가 없습니다.");
+            model.addAttribute("url", "/board/list");
+        }
+        return "/message";
+
+    }
+
+    @GetMapping("/write")
+    public String doWritePro() {
+
+        return "/board/write";
+    }
+
+    @PostMapping("/doWrite")
+    public String doWrite(Board board, Model model, MultipartFile file) {
+        boardService.doWrite(board, file);
+
+        model.addAttribute("message", "글 등록이 완료되었습니다.");
+        model.addAttribute("url", "/board/list");
+
+        return "/message";
+    }
+
+    @GetMapping("/view")
+    @Transactional
+    public String doView(int id, Model model) {
+        Board board = boardService.doView(id);
+
+        board.setCount(board.getCount() + 1);
+
+        model.addAttribute("view", board);
+        return "/board/view";
+    }
+
+    @GetMapping("/edit")
+    public String doEditPro(int id, Model model) {
+        Board board = boardService.doSelectOne(id);
+        model.addAttribute("edit", board);
+        return "/board/edit";
+    }
+
+    @PostMapping("/doEdit")
+    public String doEdit(Board board) {
+        boardService.doEdit(board);
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/delete")
+    public String doDelete(int id) {
+        boardService.doDelete(id);
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/dummy")
+    public String doCreateDummy() {
+        boardService.doCreateDummy();
+        return "/board/dummy";
+    }
+
+
+}
