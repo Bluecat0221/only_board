@@ -1,3 +1,30 @@
 /*Board_Entity_java*/
   
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Board extends BaseTimeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(name = "title", length = 100)
+    private String title;
+
+    @Column(name = "contents", length = 200)
+    private String contents;
+
+    @Column(name = "name", length = 50)
+    private String name;
+
+    @Column(name = "count", columnDefinition = "Integer default 0")
+    private int count;
+
+    private String filename;
+
+    private String filepath;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
+}
