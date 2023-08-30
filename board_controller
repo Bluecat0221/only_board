@@ -1,4 +1,4 @@
-/*Board_Controller_java*/
+//Board_Controller_java//
 
 @Controller
 @RequestMapping("/board")
