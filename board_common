@@ -1,1 +1,14 @@
 /*board_common*/
+
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+@Getter
+public abstract class BaseTimeEntity {
+
+    @CreatedDate
+    @Column(name = "regdate", nullable = false, updatable = false)
+    private LocalDate regdate;
+
+    @LastModifiedDate
+    private LocalDate moddate;
+}
