@@ -1,1 +1,83 @@
 /*Board_Service_java*/
+
+@Service
+public class BoardService {
+
+    @Autowired
+    BoardRepository boardRepository;
+
+    public Page<Board> doSelectAll(Pageable pageable) {
+
+        return boardRepository.findAll(pageable);
+    }
+
+    public void doWrite(Board board, MultipartFile file) {
+        try {
+            if(file != null) {
+                String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+                UUID uuid = UUID.randomUUID();
+                String fileName = uuid + "_" + file.getOriginalFilename();
+                File saveFile = new File(projectPath, fileName);
+                file.transferTo(saveFile);
+
+                board.setFilename(fileName);
+                board.setFilepath("/files/" + fileName);
+                boardRepository.save(board);
+            }else {
+                boardRepository.save(board);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Board doView(int id) {
+
+        return boardRepository.findById(id).get();
+    }
+
+    public Board doSelectOne(int id) {
+
+        return boardRepository.findById(id).get();
+    }
+
+    public void doEdit(Board board) {
+
+        boardRepository.save(board);
+    }
+
+    public void doDelete(int id) {
+
+        boardRepository.deleteById(id);
+    }
+
+    public void doCreateDummy(){
+        for(int i = 1; i < 101; i++) {
+            Board board = new Board();
+            board.setTitle("제목은" + i + "입니다.");
+            board.setContents("내용은" + i + "햄버거입니다.");
+            board.setName("글쓴이" + i);
+            board.setCount(0);
+
+            boardRepository.save(board);
+        }
+    }
+
+    public Page<Board> doTitleSearch(String searchKeyword, Pageable pageable) {
+        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    }
+
+    public Page<Board> doContentsSearch(String searchKeyword, Pageable pageable) {
+        return boardRepository.findByContentsContaining(searchKeyword, pageable);
+    }
+
+    public Page<Board> doTogetherSearch(String searchKeyword1, String searchKeyword2, Pageable pageable) {
+        return boardRepository.findByTitleContainingAndContentsContaining(searchKeyword1,searchKeyword2,pageable);
+    }
+
+    public Page<Board> doNameSearch(String searchKeyword, Pageable pageable) {
+        return boardRepository.findByNameContaining(searchKeyword, pageable);
+    }
+
+}
