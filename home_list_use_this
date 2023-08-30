@@ -1,0 +1,82 @@
+<!--home_list-->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/css.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/templates/board/login.html">
+</head>
+
+<body>
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a th:href="@{/board/list}">Everything Here!</a>
+            </div>
+            <ul>
+                <li><a th:href="@{/board/list}">Home</a></li>
+                <li><a th:href="@{/templates/board/login}">Login</a></li>
+                <li><a href="#">Sign In</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="board_wrap">
+        <div class="board_title">
+            <strong>게시판</strong>
+        </div>
+        <div class="board_list_wrap">
+            <div class="board_list">
+                <div class="top">
+                    <div class="num">번호</div>
+                    <div class="title">제목</div>
+                    <div class="writer">글쓴이</div>
+                    <div class="date">작성일</div>
+                    <div class="count">조회</div>
+                </div>
+                <div th:each="list : ${list}">
+                    <div class="num" th:text="${list.getId()}"></div>
+                    <div class="title"><a th:href="@{/board/view(id=${list.getId()})}" th:text="${list.getTitle()}"></a></div>
+                    <div class="writer" th:text="${list.getName()}"></div>
+                    <div class="date" th:text="${list.getRegdate()}"></div>
+                    <div class="count" th:text="${list.getCount()}"></div>
+                </div>
+
+            </div>
+            <div class="board_page">
+                <a th:href="@{/board/list(page=0)}" class="bt first"><<</a>
+                <span th:if="${startPage > 1}"><a th:href="@{/board/list(page=${prePage})}" class="bt prev"><</a></span>
+                <th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if= "${i != nowPage}" th:href="@{/board/list(page=${i - 1}, searchKeyword=${param.searchKeyword})}" th:text="${i}" class="num on">1</a>
+                    <a th:if="${i == nowPage}" th:text="${i}" style="color: red" class="num on"></a>
+                </th:block>
+                <span th:if="${endPage < totalPage}"><a th:href="@{/board/list(page=${endPage})}" class="bt next">></a></span>
+                <a th:href="@{/board/list(page=${totalPage - 1})}" class="bt last">>></a>
+            </div>
+
+            <div class="board_search">
+                <form th:action="@{/board/list}">
+                    <select name="column">
+<!--                        <option value="">조건</option>-->
+                        <option value="title">제목</option>
+                        <option value="contents">내용</option>
+                        <option value="name">글쓴이</option>
+                        <option value="together">제목+내용</option>
+                    </select>
+                    <input type="text" placeholder="검색할 단어" name="searchKeyword">
+                    <input type="submit" value="검색">
+                </form>
+            </div>
+            <div class="bt_wrap">
+                <a th:href="@{/board/list}" class="on">목록</a>
+                <a th:href="@{/board/write}" class="on">글쓰기</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
