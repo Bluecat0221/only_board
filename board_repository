@@ -1,4 +1,5 @@
-/*Board_Repository_java*/
+//Board_Repository_java//
+//repository is located in interface.//
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
