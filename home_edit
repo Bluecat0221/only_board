@@ -1,2 +1,49 @@
 <!--home_edit-->
   
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/css.css">
+</head>
+<body>
+    <div th:include="~{/common/header}"></div>
+    <main>
+        <div class="board_wrap">
+            <div class="board_title">
+                <strong>게시판</strong>
+            </div>
+        </div>
+        <div class="board_write_wrap">
+            <form th:action="@{/board/doEdit(id=${edit.getId()})}" method="post">
+                <div class="board_write">
+                    <div class="title">
+                        <dl>
+                            <dt>제목</dt>
+                            <dd><input type="text" th:value="${edit.getTitle()}" name="title"></dd>
+                        </dl>
+                    </div>
+                    <div class="info">
+                        <dl>
+                            <dt>글쓴이</dt>
+                            <dd><input type="text" th:value="${edit.getName()}" name="name"></dd>
+                        </dl>
+                    </div>
+                    <div class="cont">
+                        <textarea th:text="${edit.getContents()}" th:value="${edit.getContents()}" name="contents"></textarea>
+                    </div>
+                </div>
+                <div class="bt_wrap">
+                    <a th:href="@{/board/list}">목록</a>
+                    <input type="submit" value="수정" class="on" onclick="returnwindow.confirm(('수정하시겠습니까?'))">수정</input>
+                    <a th:href="@{/board/delete(id=${edit.getId()})}" onclick="returnwindow.confirm('삭제하시겠습니까?')">삭제</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <div th:include="~{/common/footer}"></div>
+</body>
+</html>
