@@ -1,0 +1,4 @@
+css.css file foro combining style and media css file.
+
+@import url(style.css);
+@import url(media.css);
